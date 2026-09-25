@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by a class on <html>, not the OS preference. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Karolyne Paola Beauty — design tokens
+   Palette sampled from the brand logo and the Instagram artwork:
+   petróleo #103040 · rosa #E08090 · turquesa #45A9A9 · creme #F0E8E0 · nude #D9B5A5
+   In Tailwind v4 every --color-* token below generates bg-/text-/border- utilities.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+
+  /* Superfícies */
+  --color-background: #f7f2ec;
+  --color-card: #ffffff;
+  --color-card-foreground: #12343f;
+  --color-foreground: #12343f;
+  --color-muted: #efe6dc;
+  --color-muted-foreground: #6c8189;
+  --color-border: #e7dcd1;
+
+  /* Petróleo — cor institucional, usada em texto e ações primárias */
+  --color-primary: #12343f;
+  --color-primary-foreground: #fdf9f5;
+
+  /* Rosa — cor de destaque da marca. O tom escuro garante contraste com texto
+     branco; a variante -soft é só para preenchimentos decorativos. */
+  --color-accent: #c45d79;
+  --color-accent-foreground: #ffffff;
+  --color-accent-soft: #f3b9c5;
+
+  /* Turquesa das pétalas do logo */
+  --color-secondary: #3e9c9c;
+  --color-secondary-foreground: #ffffff;
+
+  --color-nude: #d9b5a5;
+
+  /* Semânticos, harmonizados com a paleta */
+  --color-success: #2e8b72;
+  --color-success-foreground: #ffffff;
+  --color-warning: #b9822a;
+  --color-warning-foreground: #ffffff;
+  --color-destructive: #c0504d;
+  --color-destructive-foreground: #ffffff;
+
+  --color-input: #e7dcd1;
+  --color-ring: #c45d79;
+
+  --radius-xl2: 1rem;
+}
+
+/* Modo escuro: o petróleo do logo vira o fundo. */
+.dark {
+  --color-background: #0d2b34;
+  --color-card: #143a44;
+  --color-card-foreground: #f3e9df;
+  --color-foreground: #f3e9df;
+  --color-muted: #1b4651;
+  --color-muted-foreground: #9db6bd;
+  --color-border: #245159;
+
+  --color-primary: #f3e9df;
+  --color-primary-foreground: #0d2b34;
+
+  --color-accent: #e2879d;
+  --color-accent-foreground: #10303a;
+  --color-accent-soft: #7d4354;
+
+  --color-secondary: #58b6b6;
+  --color-secondary-foreground: #0d2b34;
+
+  --color-success: #46a98d;
+  --color-warning: #d8a44e;
+  --color-destructive: #db6f6c;
+
+  --color-input: #245159;
+  --color-ring: #e2879d;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-body);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+
+  /* Form controls inherit the theme instead of the browser default white. */
+  input, select, textarea {
+    background-color: var(--color-card);
+    color: var(--color-foreground);
+  }
+
+  ::placeholder {
+    color: var(--color-muted-foreground);
+  }
+}
+
+@layer components {
+  /* Valores monetários: alinhamento tabular para as colunas ficarem retas. */
+  .real {
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* Letterspacing do "BEAUTY" no logo */
+  .brand-caps {
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-border bg-card;
+    box-shadow: 0 1px 2px rgb(18 52 63 / 4%), 0 8px 24px -12px rgb(18 52 63 / 10%);
+  }
+
+  .empty-state {
+    @apply text-center py-12 text-muted-foreground;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-border px-3 py-2 text-sm transition-colors;
+    @apply focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-ring;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2;
+    @apply text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl border border-border px-4 py-2;
+    @apply text-sm font-medium transition-colors hover:bg-muted;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.35s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
